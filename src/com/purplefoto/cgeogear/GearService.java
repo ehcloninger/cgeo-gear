@@ -38,6 +38,8 @@ public class GearService extends Service {
 					{
 						mainActivityIntent.putExtra(Intents.EXTRA_HINT, intent.getStringExtra(Intents.EXTRA_HINT));
 					}
+					
+					mainActivityIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			        context.startActivity(mainActivityIntent);			
 		        }
 			}
