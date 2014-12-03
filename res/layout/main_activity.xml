@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="2dp"
-        android:text="GC Code"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:text="Geocache name"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="00 00.000"
+            android:text=""
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -54,26 +54,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="000 00.000"
+            android:text=""
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/gchint"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="3dp"
         android:layout_weight="1"
-        android:text="I&apos;m just a hint"
+        android:text="@string/description"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
         android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="10dp"
-        android:text="@string/send_to_gear" />
+        android:text="@string/start_cgeo" />
 
 </LinearLayout>

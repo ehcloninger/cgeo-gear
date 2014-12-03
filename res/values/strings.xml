@@ -21,8 +21,9 @@
     <!-- Simple strings. -->
     <string name="app_name">c:geo Gear</string>
     <string name="version_id">1.0.0</string>
-    <string name="description">c:geo Gear is a stand-alone application that acts as a bridge between the c:geo geocaching app and a Tizen&#174;-based Gear watch.</string>
-    <string name="usage">Inside c:geo, select and view a cache. Locate the <b>Goto</b> menu and select <b>Gear Watch</b> from the choices.</string>
+    <string name="description"><b>c:geo Gear</b> connects c:geo and a Tizen&#174;-based Gear watch. Inside c:geo, select and view a cache. Locate the Goto menu and select Gear Watch from the choices.</string>
 	<string name="send_to_gear">Send to Gear</string>
+	<string name="start_cgeo">Start c:geo</string>
+	<string name="cgeo_not_installed">c:geo is not installed on this device.</string>
 </resources>
 

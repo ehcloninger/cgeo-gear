@@ -18,10 +18,13 @@ package com.purplefoto.cgeogear;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+import cgeo.geocaching.Intents;
 
 /**
  * This class provides a basic demonstration of how to write an Android
@@ -33,14 +36,6 @@ public class CgeoGearMainActivity extends Activity {
     public CgeoGearMainActivity() {
     }
 
-    private static final String PREFIX = "cgeo.geocaching.intent.extra.";
-
-    public static final String EXTRA_LATITUDE = PREFIX + "latitude";
-    public static final String EXTRA_LONGITUDE = PREFIX + "longitude";
-    public static final String EXTRA_GEOCODE = PREFIX + "geocode";
-    public static final String EXTRA_HINT = PREFIX + "hint";
-    public static final String EXTRA_NAME = PREFIX + "name";
-
     TextView gccode = null;
     TextView gcname = null;
     TextView gclat = null;
@@ -49,8 +44,8 @@ public class CgeoGearMainActivity extends Activity {
     
     private String code;
     private String name;
-    private double lat;
-    private double lon;
+    private double lat = 0d;
+    private double lon = 0d;
     private String hint;
     
     /** Called with the activity is first created. */
@@ -60,34 +55,60 @@ public class CgeoGearMainActivity extends Activity {
 
         // Inflate our UI from its XML layout description.
         setContentView(R.layout.main_activity);
-
+        
+        Intent intent = this.getIntent();
+		name = intent.getStringExtra(Intents.EXTRA_NAME);
+		code = intent.getStringExtra(Intents.EXTRA_GEOCODE);
+		lat = intent.getDoubleExtra(Intents.EXTRA_LATITUDE, 0d);
+		lon = intent.getDoubleExtra(Intents.EXTRA_LONGITUDE, 0d);
+		hint = intent.getStringExtra(Intents.EXTRA_HINT);
+		
         gccode = (TextView) this.findViewById(R.id.gccode);
         gcname = (TextView) this.findViewById(R.id.gcname);
         gclat = (TextView) this.findViewById(R.id.gclat);
         gclon = (TextView) this.findViewById(R.id.gclon);
         gchint = (TextView) this.findViewById(R.id.gchint);
-        
-        Intent intent = this.getIntent();
-		name = intent.getStringExtra(EXTRA_NAME);
-		code = intent.getStringExtra(EXTRA_GEOCODE);
-
-		lat = intent.getDoubleExtra(EXTRA_LATITUDE, 0d);
-		lon = intent.getDoubleExtra(EXTRA_LONGITUDE, 0d);
-
-		hint = intent.getStringExtra(EXTRA_HINT);
-		
-    	gccode.setText(code);
-    	gcname.setText(name);
-    	gclat.setText(String.format("%.0f", lat));
-    	gclon.setText(String.format("%.0f", lon));
-    	
-    	// Comment this out for production
-    	gchint.setText(hint);
-       
         final Button button = (Button) findViewById(R.id.send);
+               
+		if ((lat == 0d) && (lon == 0d))
+		{
+			button.setText(R.string.start_cgeo);
+	    	gchint.setText(R.string.description);
+		}
+		else
+		{
+			button.setText(R.string.send_to_gear);
+
+			gccode.setText(code);
+	    	gcname.setText(name);
+	    	gclat.setText(String.format("%.0f", lat));
+	    	gclon.setText(String.format("%.0f", lon));
+	    	
+	    	// Comment this out for production
+	    	gchint.setText(hint);
+		}
+		
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
+        		if ((lat == 0d) && (lon ==0d))
+        		{
+        	        PackageManager manager = getPackageManager();
+        	        try {
+        	        	final Intent launchIntent = manager.getLaunchIntentForPackage("cgeo.geocaching");
+        	            if (launchIntent == null)
+        	                throw new PackageManager.NameNotFoundException();
+        	            launchIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        	            CgeoGearMainActivity.this.startActivity(launchIntent);
+        	        } 
+        	        catch (PackageManager.NameNotFoundException e) 
+        	        {
+        	        	Toast.makeText(CgeoGearMainActivity.this, R.string.cgeo_not_installed, Toast.LENGTH_LONG);
+        	        }
+        		}
+        		else
+        		{
+        			CgeoGearMainActivity.this.finish();
+        		}
             }
         });
    }
