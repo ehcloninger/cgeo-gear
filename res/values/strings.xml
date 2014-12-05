@@ -14,9 +14,6 @@
      limitations under the License.
 -->
 
-<!-- This file contains resource definitions for displayed strings, allowing
-     them to be changed based on the locale and options. -->
-
 <resources>
     <!-- Simple strings. -->
     <string name="app_name">c:geo Gear</string>
@@ -25,5 +22,9 @@
 	<string name="send_to_gear">Send to Gear</string>
 	<string name="start_cgeo">Start c:geo</string>
 	<string name="cgeo_not_installed">c:geo is not installed on this device.</string>
+	<string name="link_usage_guide">Usage Guide</string>
+	<string name="link_usage_guide_summary">Instructions for using this app</string>
+	<string name="pref_title_auto_send">Auto-send to Gear</string>
+	<string name="pref_summary_auto_send">Automatically send cache info to Gear Watch</string>
 </resources>
 

@@ -18,8 +18,10 @@ package com.purplefoto.cgeogear;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -32,6 +34,8 @@ import cgeo.geocaching.Intents;
  * displays and edits some internal text.
  */
 public class CgeoGearMainActivity extends Activity {
+	// Until it's in c:geo sources...
+	static final String EXTRA_HINT = "cgeo.geocaching.intent.extra.hint";
 
 	public CgeoGearMainActivity() {
 	}
@@ -75,18 +79,22 @@ public class CgeoGearMainActivity extends Activity {
 							.show();
 					}
 				} else {
-					
-					// TODO: Insert Gear notification code here
-					
-					Toast.makeText(CgeoGearMainActivity.this,
-							"(" + code + ") " + name, 
-							Toast.LENGTH_LONG)
-						.show();
-					
-					CgeoGearMainActivity.this.finish();
+					doSendToGear();
 				}
 			}
 		});
+	}
+
+	private void doSendToGear()
+	{
+		// TODO: Insert Gear notification code here
+		
+		Toast.makeText(CgeoGearMainActivity.this,
+				"(" + code + ") " + name, 
+				Toast.LENGTH_LONG)
+			.show();
+		
+		CgeoGearMainActivity.this.finish();
 	}
 
 	void setActivityLayoutData(Intent intent) {
@@ -97,7 +105,7 @@ public class CgeoGearMainActivity extends Activity {
 		code = intent.getStringExtra(Intents.EXTRA_GEOCODE);
 		lat = intent.getDoubleExtra(Intents.EXTRA_LATITUDE, 0d);
 		lon = intent.getDoubleExtra(Intents.EXTRA_LONGITUDE, 0d);
-		hint = intent.getStringExtra(Intents.EXTRA_HINT);
+		hint = intent.getStringExtra(/* Intents. */ EXTRA_HINT);
 
 		if ((lat == 0d) && (lon == 0d)) {
 			button.setText(R.string.start_cgeo);
@@ -155,5 +163,15 @@ public class CgeoGearMainActivity extends Activity {
 		gchint = (TextView) this.findViewById(R.id.gchint);
 
 		setActivityLayoutData(this.getIntent());
+		
+		SharedPreferences userPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		if (userPrefs != null)
+		{
+			boolean autoSend = userPrefs.getBoolean(this.getString(R.string.pref_title_auto_send), false);
+			if (autoSend)
+			{
+				doSendToGear();
+			}
+		}
 	}
 }
