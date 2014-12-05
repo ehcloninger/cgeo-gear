@@ -1,22 +1,21 @@
 /*
- * Copyright (C) 2007 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+	Copyright 2014 Eric Cloninger (purplefoto.com)
+	
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
  */
 
 package com.purplefoto.cgeogear;
 
 import android.app.Activity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -29,13 +28,13 @@ import android.widget.Toast;
 import cgeo.geocaching.Intents;
 
 /**
- * This class provides a basic demonstration of how to write an Android
- * activity. Inside of its window, it places a single view: an EditText that
- * displays and edits some internal text.
+ * This is the main UX for cgeo-gear. If the user starts the app, it displays the usage information
+ * and prompts them to launch c:geo.  When c:geo sends an intent for the watch, it's activated by
+ * the service and data from the intent populates the data fields.
  */
 public class CgeoGearMainActivity extends Activity {
 	// Until it's in c:geo sources...
-	static final String EXTRA_HINT = "cgeo.geocaching.intent.extra.hint";
+	// static final String EXTRA_HINT = "cgeo.geocaching.intent.extra.hint";
 
 	public CgeoGearMainActivity() {
 	}
@@ -50,7 +49,7 @@ public class CgeoGearMainActivity extends Activity {
 	private String name;
 	private double lat = 0d;
 	private double lon = 0d;
-	private String hint;
+//	private String hint;
 	private Button button = null;
 
 	/** Called with the activity is first created. */
@@ -65,27 +64,38 @@ public class CgeoGearMainActivity extends Activity {
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				if ((lat == 0d) && (lon == 0d)) {
-					PackageManager manager = getPackageManager();
-					try {
-						final Intent launchIntent = manager
-								.getLaunchIntentForPackage("cgeo.geocaching");
-						if (launchIntent == null)
-							throw new PackageManager.NameNotFoundException();
-						launchIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+					final Intent launchIntent = getCgeoIntent();
+					if (launchIntent == null)
+						Toast.makeText(CgeoGearMainActivity.this, R.string.cgeo_not_installed, Toast.LENGTH_LONG).show();
+					else
 						CgeoGearMainActivity.this.startActivity(launchIntent);
-					} catch (PackageManager.NameNotFoundException e) {
-						Toast.makeText(CgeoGearMainActivity.this,
-								R.string.cgeo_not_installed, Toast.LENGTH_LONG)
-							.show();
-					}
 				} else {
-					doSendToGear();
+					sendToGear();
 				}
 			}
 		});
 	}
 
-	private void doSendToGear()
+	/*
+	 * getCgeoIntent
+	 * Retrieve reference to intent to launch c:geo. If c:geo not installed, returns null.
+	 */
+	private final Intent getCgeoIntent()
+	{
+		PackageManager manager = getPackageManager();
+		
+		// If package manager is null, you're hosed.
+		if (manager == null)
+			return null;
+			
+		return manager.getLaunchIntentForPackage("cgeo.geocaching");
+	}
+
+	/*
+	 * sendToGear
+	 * Send data from intent to Gear watch. This is the interface to the Samsung Notification UI.
+	 */
+	private void sendToGear()
 	{
 		// TODO: Insert Gear notification code here
 		
@@ -97,6 +107,11 @@ public class CgeoGearMainActivity extends Activity {
 		CgeoGearMainActivity.this.finish();
 	}
 
+	/*
+	 * setActivityLayoutData(Intent intent)
+	 * Populates the UX with cache data from the launch intent.  If data is null, it means user launced the app, 
+	 * so only present the usage instruction and the button will launch c:geo if it's installed.
+	 */
 	void setActivityLayoutData(Intent intent) {
 		if (intent == null)
 			return;
@@ -105,18 +120,23 @@ public class CgeoGearMainActivity extends Activity {
 		code = intent.getStringExtra(Intents.EXTRA_GEOCODE);
 		lat = intent.getDoubleExtra(Intents.EXTRA_LATITUDE, 0d);
 		lon = intent.getDoubleExtra(Intents.EXTRA_LONGITUDE, 0d);
-		hint = intent.getStringExtra(/* Intents. */ EXTRA_HINT);
+//		hint = intent.getStringExtra(/* Intents. */ EXTRA_HINT);
 
 		if ((lat == 0d) && (lon == 0d)) {
 			button.setText(R.string.start_cgeo);
 			gchint.setText(R.string.description);
+			
+			// Disable "Start c:geo" button if c:geo not installed
+			button.setEnabled(getCgeoIntent() != null);
 		} else {
 			button.setText(R.string.send_to_gear);
 
 			gccode.setText(code);
 			gcname.setText(name);
-			gclat.setText(String.format("%.0f", lat));
-			gclon.setText(String.format("%.0f", lon));
+			
+			// Pretty print as DD MM.SSS
+			gclat.setText(String.format("%2d %2.3f", (int) lat, java.lang.Math.abs(lat - (int) lat) * 60 ));
+			gclon.setText(String.format("%3d %2.3f", (int) lon, java.lang.Math.abs(lon - (int) lon) * 60 ));
 
 			/*
 			 * Comment this out for production. Only pass along the hint to the
@@ -126,6 +146,13 @@ public class CgeoGearMainActivity extends Activity {
 		}
 	}
 
+	/*
+	 * onNewIntent
+	 * Respond when user launches or activated from other task.
+	 * 
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onNewIntent(android.content.Intent)
+	 */
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
@@ -149,13 +176,20 @@ public class CgeoGearMainActivity extends Activity {
 		setActivityLayoutData(intent);
 	}
 
-	/**
-	 * Called when the activity is about to start interacting with the user.
+	/*
+	 * onResume
+	 * Called from lifecycle when user resumes. 
+	 * 
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onResume()
 	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
 
+		// Assign values to UX elements.  These could go in onCreate, but could they change if app deactivated?
+		// Maybe need to do something in onDestroy... TBD
+		
 		gccode = (TextView) this.findViewById(R.id.gccode);
 		gcname = (TextView) this.findViewById(R.id.gcname);
 		gclat = (TextView) this.findViewById(R.id.gclat);
@@ -163,15 +197,6 @@ public class CgeoGearMainActivity extends Activity {
 		gchint = (TextView) this.findViewById(R.id.gchint);
 
 		setActivityLayoutData(this.getIntent());
-		
-		SharedPreferences userPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		if (userPrefs != null)
-		{
-			boolean autoSend = userPrefs.getBoolean(this.getString(R.string.pref_title_auto_send), false);
-			if (autoSend)
-			{
-				doSendToGear();
-			}
-		}
+
 	}
 }

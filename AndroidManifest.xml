@@ -37,18 +37,14 @@
             </intent-filter>
         </activity>
 
-		<activity
-			android:name=".SettingsActivity"
-			android:label="@string/app_name">
-		</activity>
-
-        <service
+       <service
             android:name="com.purplefoto.cgeogear.GearService"
             android:exported="true" >
             <intent-filter>
                 <action android:name="cgeo.geocaching.wear.NAVIGATE_TO" />
+                <!--  Not quite ready to activate this intent. Plan to add hints to it when c:geo change is added.
                 <action android:name="cgeo.geocaching.gear.NAVIGATE_TO" />
-                
+             	-->    
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
