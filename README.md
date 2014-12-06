@@ -48,9 +48,9 @@ c:geo for the log.
 ###Credits
 =========
 
-* The (c:geo team)[https://github.com/cgeo] for fixing a bug that caused their app to crash when this app was loaded and borrowing some of their icons
+* The (c:geo team)[https://github.com/cgeo] for fixing a bug that caused their app to crash when this app was loaded.
 
 * Cullin Moran (@culmor30)[https://github.com/culmor30] for the c:geo-wear project, where I got a few pointers on making a 
-plugin for c:geo. In particular, the GearService class
+plugin for c:geo. In particular, GearService is based on a similar class in his project.
 
-* The globe image on the notification comes [Font Awesome](https://github.com/FortAwesome/Font-Awesome).
+* The icons on the Gear notification come from the Google (Material Design icon pack)[https://github.com/google/material-design-icons]/

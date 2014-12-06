@@ -57,7 +57,7 @@ public class CacheNotification {
         // TODO: Figure out why Action button colors are close to background color
         ArrayList<SrnAction> actions = new ArrayList<SrnAction>();
         SrnHostAction primaryAction = new SrnHostAction(mContext.getString(R.string.navigate));
-        Bitmap primaryActionIcon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.globe);
+        Bitmap primaryActionIcon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_pin_drop);
         SrnImageAsset naviIcon = new SrnImageAsset(mContext, "web_icon", primaryActionIcon);
 
 //        String url = "http://musicmp3.ru/artist_taylor-swift__album_red.html#.U-Cj3WPzkjY";
@@ -73,7 +73,7 @@ public class CacheNotification {
         actions.add(primaryAction);
         
         // Create the icon for the notification
-        Bitmap appIconBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.type_traditional);
+        Bitmap appIconBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_my_location);
         SrnImageAsset appIcon = new SrnImageAsset(mContext, "app_icon", appIconBitmap);
 
         // Create notification object and assign values
