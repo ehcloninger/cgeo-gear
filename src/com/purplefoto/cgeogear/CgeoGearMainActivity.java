@@ -14,25 +14,30 @@
 
 package com.purplefoto.cgeogear;
 
-import android.app.Activity;
+import java.util.UUID;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import cgeo.geocaching.Intents;
 
+import com.samsung.android.sdk.SsdkUnsupportedException;
+import com.samsung.android.sdk.richnotification.Srn;
+import com.samsung.android.sdk.richnotification.SrnRichNotificationManager;
+import com.samsung.android.sdk.richnotification.SrnRichNotificationManager.ErrorType;
+import com.samsung.android.sdk.richnotification.SrnRichNotificationManager.EventListener;
+
 /**
  * This is the main UX for cgeo-gear. If the user starts the app, it displays the usage information
  * and prompts them to launch c:geo.  When c:geo sends an intent for the watch, it's activated by
  * the service and data from the intent populates the data fields.
  */
-public class CgeoGearMainActivity extends Activity {
+public class CgeoGearMainActivity extends Activity implements EventListener {
 	// Until it's in c:geo sources...
 	// static final String EXTRA_HINT = "cgeo.geocaching.intent.extra.hint";
 
@@ -45,12 +50,10 @@ public class CgeoGearMainActivity extends Activity {
 	TextView gclon = null;
 	TextView gchint = null;
 
-	private String code;
-	private String name;
-	private double lat = 0d;
-	private double lon = 0d;
-//	private String hint;
+	private CacheData cacheData;
 	private Button button = null;
+
+    private SrnRichNotificationManager mRichNotificationManager;
 
 	/** Called with the activity is first created. */
 	@Override
@@ -60,10 +63,20 @@ public class CgeoGearMainActivity extends Activity {
 		// Inflate our UI from its XML layout description.
 		setContentView(R.layout.main_activity);
 
-		button = (Button) findViewById(R.id.send);
+        Srn srn = new Srn();
+        try {
+            // Initialize an instance of Srn.
+            srn.initialize(this);
+        } catch (SsdkUnsupportedException e) {
+            // Error handling
+        }
+
+        mRichNotificationManager = new SrnRichNotificationManager(getApplicationContext());
+
+        button = (Button) findViewById(R.id.send);
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				if ((lat == 0d) && (lon == 0d)) {
+				if ((cacheData.getLat() == 0d) && (cacheData.getLon() == 0d)) {
 					final Intent launchIntent = getCgeoIntent();
 					if (launchIntent == null)
 						Toast.makeText(CgeoGearMainActivity.this, R.string.cgeo_not_installed, Toast.LENGTH_LONG).show();
@@ -98,9 +111,12 @@ public class CgeoGearMainActivity extends Activity {
 	private void sendToGear()
 	{
 		// TODO: Insert Gear notification code here
+		CacheNotification notification = new CacheNotification(this.getBaseContext(), cacheData);
+		
+        UUID uuid = mRichNotificationManager.notify(notification.createRichNotification());
 		
 		Toast.makeText(CgeoGearMainActivity.this,
-				"(" + code + ") " + name, 
+				"(" + cacheData.getCode() + ") " + cacheData.getName() + ": " + uuid.toString(), 
 				Toast.LENGTH_LONG)
 			.show();
 		
@@ -116,13 +132,15 @@ public class CgeoGearMainActivity extends Activity {
 		if (intent == null)
 			return;
 
-		name = intent.getStringExtra(Intents.EXTRA_NAME);
-		code = intent.getStringExtra(Intents.EXTRA_GEOCODE);
-		lat = intent.getDoubleExtra(Intents.EXTRA_LATITUDE, 0d);
-		lon = intent.getDoubleExtra(Intents.EXTRA_LONGITUDE, 0d);
+		cacheData.setName(intent.getStringExtra(Intents.EXTRA_NAME));
+		cacheData.setCode(intent.getStringExtra(Intents.EXTRA_GEOCODE));
+		cacheData.setLat(intent.getDoubleExtra(Intents.EXTRA_LATITUDE, 0d));
+		cacheData.setLon(intent.getDoubleExtra(Intents.EXTRA_LONGITUDE, 0d));
+		
+		final String hint = "";
 //		hint = intent.getStringExtra(/* Intents. */ EXTRA_HINT);
 
-		if ((lat == 0d) && (lon == 0d)) {
+		if ((cacheData.getLat() == 0d) && (cacheData.getLon() == 0d)) {
 			button.setText(R.string.start_cgeo);
 			gchint.setText(R.string.description);
 			
@@ -131,18 +149,18 @@ public class CgeoGearMainActivity extends Activity {
 		} else {
 			button.setText(R.string.send_to_gear);
 
-			gccode.setText(code);
-			gcname.setText(name);
+			gccode.setText(cacheData.getCode());
+			gcname.setText(cacheData.getName());
 			
 			// Pretty print as DD MM.SSS
-			gclat.setText(String.format("%2d %2.3f", (int) lat, java.lang.Math.abs(lat - (int) lat) * 60 ));
-			gclon.setText(String.format("%3d %2.3f", (int) lon, java.lang.Math.abs(lon - (int) lon) * 60 ));
+			gclat.setText(String.format("%2d %2.3f", (int) cacheData.getLat(), java.lang.Math.abs(cacheData.getLat() - (int) cacheData.getLat()) * 60 ));
+			gclon.setText(String.format("%3d %2.3f", (int) cacheData.getLon(), java.lang.Math.abs(cacheData.getLon() - (int) cacheData.getLon()) * 60 ));
 
 			/*
 			 * Comment this out for production. Only pass along the hint to the
 			 * watch, so it doesn't spoil the hunt for the user
 			 */
-			// gchint.setText(hint);
+			gchint.setText(hint);
 		}
 	}
 
@@ -187,7 +205,10 @@ public class CgeoGearMainActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 
-		// Assign values to UX elements.  These could go in onCreate, but could they change if app deactivated?
+        mRichNotificationManager.start();
+        mRichNotificationManager.registerRichNotificationListener(this);
+
+        // Assign values to UX elements.  These could go in onCreate, but could they change if app deactivated?
 		// Maybe need to do something in onDestroy... TBD
 		
 		gccode = (TextView) this.findViewById(R.id.gccode);
@@ -199,4 +220,41 @@ public class CgeoGearMainActivity extends Activity {
 		setActivityLayoutData(this.getIntent());
 
 	}
+	
+	/*
+	 * onPause
+	 * Lifecycle override
+	 * 
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onPause()
+	 */
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mRichNotificationManager.unregisterRichNotificationListener(this);
+        mRichNotificationManager.stop();
+    }
+
+    // Implement EventListener required interface
+    @Override
+    public void onError(UUID arg0, ErrorType arg1) {
+        Toast.makeText(getApplicationContext(),
+                "Something wrong with uuid" + arg0.toString() + "Error:" + arg1.toString(),
+                Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onRead(UUID arg0) {
+        Toast.makeText(getApplicationContext(), "Read uuid" + arg0.toString(), Toast.LENGTH_LONG)
+                .show();
+
+    }
+
+    @Override
+    public void onRemoved(UUID arg0) {
+        Toast.makeText(getApplicationContext(), "Removed uuid" + arg0.toString(), Toast.LENGTH_LONG)
+                .show();
+
+    }
 }
