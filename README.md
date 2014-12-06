@@ -1,4 +1,4 @@
-#cgeo-gear
+##cgeo-gear
 =========
 
 c:geo-gear is an Android app that is a companion to the popular 
@@ -20,14 +20,14 @@ geocache. The button then allows the user to send a Rich Notification to the wat
 contains the cache name, cache code, and coordinates.  Once the notification is sent
 c:geo-gear quits and control returns to c:geo.
 
-#Building c:geo-gear
+###Building c:geo-gear
 =======================
 
 Build the project with Eclipse and the Android ADT plugins.  There is not a gradle project
 for c:geo-gear.  Import into Eclipse as any Android project and build.  The dependent libraries
 are from the Samsung developer site.
 
-#TODO
+###TODO
 ======
 
 * Finish the Tizen widget
@@ -45,7 +45,7 @@ c:geo for the log.
 
 * Clean up the notification content.
 
-#Credits
+###Credits
 =========
 
 * The (c:geo team)[https://github.com/cgeo] for fixing a bug that caused their app to crash when this app was loaded and borrowing some of their icons
