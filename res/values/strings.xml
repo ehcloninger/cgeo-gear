@@ -22,5 +22,8 @@
 	<string name="send_to_gear">Send to Gear</string>
 	<string name="start_cgeo">Start c:geo</string>
 	<string name="cgeo_not_installed">c:geo is not installed on this device.</string>
+	<string name="search_for_geocache">Search for Geocache</string>
+	<string name="navigate">Navigate</string>
+	<string name="lets_go">Let\'s Go!</string>
 </resources>
 

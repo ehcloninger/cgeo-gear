@@ -50,7 +50,7 @@ public class CgeoGearMainActivity extends Activity implements EventListener {
 	TextView gclon = null;
 	TextView gchint = null;
 
-	private CacheData cacheData;
+	private CacheData cacheData = new CacheData();
 	private Button button = null;
 
     private SrnRichNotificationManager mRichNotificationManager;
