@@ -24,8 +24,11 @@ c:geo-gear quits and control returns to c:geo.
 =======================
 
 Build the project with Eclipse and the Android ADT plugins.  There is not a gradle project
-for c:geo-gear.  Import into Eclipse as any Android project and build.  The dependent libraries
-are from the Samsung developer site.
+for c:geo-gear.  Import into Eclipse as any Android project and build.  The dependent 
+libraries are from the Samsung developer site.
+
+You will need to clone the c:geo project and include it in your Eclipse workspace. This
+will get the Intents.* defines. As an alternative, copy these values to your own project.
 
 ###TODO
 ======
