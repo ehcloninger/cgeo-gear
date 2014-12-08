@@ -1,0 +1,157 @@
+#main .ui-content,
+#preview .ui-content {
+    overflow: hidden;
+}
+
+#main .navigation {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    font-size: 15px;
+    line-height: 0px;
+    border-radius: 10px;
+    opacity: .5;
+    text-align: center;
+}
+
+#main-alert-message,
+#preview-alert-message {
+    font-size: 22px;
+}
+
+#navigate-btn {
+    top: 5px;
+    left: 5px;
+    background-image: url('../images/ic_action_navigate.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+}
+
+#settings-btn {
+    top: 5px;
+    right: 5px;
+    background-image: url('../images/ic_action_settings.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
+}
+
+.hidden {
+    visibility: hidden !important;
+}
+
+.ui-listview .hidden {
+    display: none;
+}
+
+#preview .ui-content {
+    position: relative;
+}
+
+#preview-picture {
+    position: absolute;
+}
+
+#preview-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 320px;
+    z-index: 1;
+}
+
+#preview-foreground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../images/pause.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 20%;
+    opacity: .5;
+    z-index: 2;
+}
+
+#preview-foreground.paused {
+    background-image: url('../images/play.png');
+}
+
+#focus-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: -webkit-flex;
+}
+
+#focus-frame {
+    margin: auto;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #fff;
+    border-radius: 10px;
+}
+
+#focus-frame.autofocus-success {
+    border-color: green;
+}
+
+#focus-frame.autofocus-failure {
+    border-color: red;
+}
+
+.autofocus-animation {
+    -webkit-animation-name: autofocus-animation;
+    -webkit-animation-duration: .5s;
+    -webkit-animation-timing-function: 'ease-in';
+}
+
+@keyframes autofocus-animation {
+    0% {
+        width: 200px;
+        height: 200px;
+        opacity: 0;
+    }
+    60% {
+        width: 100px;
+        height: 100px;
+    }
+    80% {
+        width: 120px;
+        height: 120px;
+    }
+    100% {
+        width: 100px;
+        height: 100px;
+        opacity: 1;
+    }
+}
+
+.ui-listview li.li-has-checkbox,
+.ui-listview li.li-has-radio {
+    padding: 0;
+}
+
+.ui-listview li.li-has-checkbox label,
+.ui-listview li.li-has-radio label {
+    position: relative;
+    display: block;
+    line-height: 45px;
+    padding-bottom: 22px;
+    padding-left: 16px;
+    padding-right: 14px;
+    padding-top: 23px;
+}
+
+.ui-listview li input[type="checkbox"],
+.ui-listview li input[type="radio"] {
+        position: absolute;
+        right: 8px;
+        top: 0px;
+        margin-top: 19px;
+}
