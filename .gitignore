@@ -25,3 +25,11 @@ proguard/
 
 # Log Files
 *.log
+
+# Tizen project files
+.build/
+.sdk_delta.info
+.rds_delta
+.settings
+.tproject
+*.wgt
