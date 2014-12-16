@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://yourdomain/cgeogearapp" version="1.0.0" viewmodes="maximized">
-    <tizen:application id="r0lFuOHRUg.cgeogearapp" package="r0lFuOHRUg" required_version="2.2"/>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://purplefoto.com/cgeogearapp" version="1.0.0" viewmodes="maximized">
+    <tizen:application id="zl8mrKucHN.cgeogearapp" package="zl8mrKucHN" required_version="2.2"/>
+    <author href="http://www.purplefoto.com" email="purplefoto@purplefoto.com">PurpleFoto</author>
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
+    <feature name="http://tizen.org/feature/location.gps"/>
     <icon src="icon.png"/>
     <name>cgeogearapp</name>
+    <tizen:privilege name="http://tizen.org/privilege/location"/>
+    <tizen:setting background-support="disable" encryption="disable" hwkey-event="enable"/>
 </widget>

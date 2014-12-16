@@ -30,6 +30,11 @@ proguard/
 .build/
 .sdk_delta.info
 .rds_delta
-.settings
+.settings/**
 .tproject
 *.wgt
+.jsdtscope
+
+# Eclipse/Tizen IDE files
+workspace/
+workspace-*/

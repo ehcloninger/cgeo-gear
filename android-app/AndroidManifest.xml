@@ -18,8 +18,10 @@
     android:versionCode="1"
     android:versionName="@string/version_id" >
 
+    <uses-permission android:name="com.samsung.wmanager.APP" />
     <uses-permission android:name="com.samsung.wmanager.ENABLE_NOTIFICATION" />
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
+    <uses-permission android:name="com.samsung.WATCH_APP_TYPE.Integrated"/>
     
     <uses-sdk
         android:minSdkVersion="19"
@@ -55,6 +57,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
-    </application>
+		
+		<meta-data android:name="GearAppType" android:value="wgt"/>
+        
+        </application>
 
 </manifest>
