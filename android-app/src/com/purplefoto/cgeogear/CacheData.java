@@ -14,6 +14,9 @@
 
 package com.purplefoto.cgeogear;
 
+import android.content.Context;
+import android.net.Uri;
+
 /*
  * Container for cache related data
  */
@@ -66,6 +69,18 @@ public class CacheData {
 	}
 	public void setHint(String hint) {
 		this.hint = hint;
+	}
+	public String toString(Context mContext){
+		String ret = "http://localhost?" +
+				mContext.getString(R.string.notification_url_gccode) + "=" + Uri.encode(this.code) + "&" +
+				mContext.getString(R.string.notification_url_gcname) + "=" + Uri.encode(this.name) + "&" +
+				mContext.getString(R.string.notification_url_lat) + "=" + String.format("%.5f", this.lat) + "&" +
+				mContext.getString(R.string.notification_url_lon) + "=" + String.format("%.5f", this.lon) + "&" +
+				mContext.getString(R.string.notification_url_gchint) + "=" + Uri.encode(this.hint)
+				;
+		
+		
+		return ret;
 	}
 	
 	private String name;

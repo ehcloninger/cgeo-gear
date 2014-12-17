@@ -27,7 +27,7 @@ public class GearService extends Service {
 	// Until it's in c:geo sources...
 	// static final String EXTRA_HINT = "cgeo.geocaching.intent.extra.hint";
 
-	public static final String DEBUG_TAG = "com.purplefoto.cgearo";
+	public static final String DEBUG_TAG = "com.purplefoto.cgeogear";
 
 	// Don't yet provide this intent
 	// private static final String INTENT_GEAR = "cgeo.geocaching.gear.NAVIGATE_TO";

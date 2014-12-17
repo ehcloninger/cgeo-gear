@@ -19,15 +19,18 @@ package com.purplefoto.cgeogear;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 
 import com.samsung.android.sdk.richnotification.SrnAction;
+import com.samsung.android.sdk.richnotification.SrnAction.CallbackIntent;
 import com.samsung.android.sdk.richnotification.SrnImageAsset;
 import com.samsung.android.sdk.richnotification.SrnRichNotification;
 import com.samsung.android.sdk.richnotification.SrnRichNotification.AlertType;
-import com.samsung.android.sdk.richnotification.actions.SrnHostAction;
+import com.samsung.android.sdk.richnotification.actions.SrnRemoteLaunchAction;
 import com.samsung.android.sdk.richnotification.templates.SrnStandardTemplate;
 import com.samsung.android.sdk.richnotification.templates.SrnStandardTemplate.HeaderSizeType;
 
@@ -54,21 +57,17 @@ public class CacheNotification {
         smallHeaderTemplate.setBackgroundColor(Color.rgb(69, 114, 32));
 
         // Create the actions
-        // TODO: Figure out why Action button colors are close to background color
         ArrayList<SrnAction> actions = new ArrayList<SrnAction>();
-        SrnHostAction primaryAction = new SrnHostAction(mContext.getString(R.string.navigate));
+        SrnRemoteLaunchAction primaryAction = new SrnRemoteLaunchAction(mContext.getString(R.string.navigate));
         Bitmap primaryActionIcon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_pin_drop);
         SrnImageAsset naviIcon = new SrnImageAsset(mContext, "web_icon", primaryActionIcon);
-
-//        String url = "http://musicmp3.ru/artist_taylor-swift__album_red.html#.U-Cj3WPzkjY";
-//        Intent resultIntent = new Intent(mContext, GearNotificationCallbackActivity.class);
-//        resultIntent.setData(Uri.parse(url));
-
         primaryAction.setIcon(naviIcon);
-        
-        // TODO: Instead of toast, launch widget on watch
-        primaryAction.setToast(mContext.getString(R.string.lets_go));
-//        primaryAction.setCallbackIntent(CallbackIntent.getActivityCallback(resultIntent));
+
+        primaryAction.setPackage(mContext.getString(R.string.gear_package_name));
+        primaryAction.setData(Uri.parse(mCacheData.toString(mContext)));
+
+        Intent resultIntent = new Intent(mContext, GearNotificationCallbackActivity.class);
+        primaryAction.setCallbackIntent(CallbackIntent.getActivityCallback(resultIntent));
 
         actions.add(primaryAction);
         

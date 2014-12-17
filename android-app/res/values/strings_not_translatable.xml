@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- cache menu -->
+    <string name="notification_url_gccode" translatable="false">code</string>
+    <string name="notification_url_gcname" translatable="false">name</string>
+    <string name="notification_url_lat" translatable="false">lat</string>
+    <string name="notification_url_lon" translatable="false">lon</string>
+    <string name="notification_url_gchint" translatable="false">hint</string>
+    
+</resources>
