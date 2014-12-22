@@ -1,19 +1,33 @@
-window.onload = function() {
-	// TODO:: Do your initialization job
+$(window).load(function(){
 
-	// add eventListener for tizenhwkey
+	//This listens for the back button press
 	document.addEventListener('tizenhwkey', function(e) {
-		if (e.keyName == "back")
-			tizen.application.getCurrentApplication().exit();
+        if(e.keyName == "back")
+            tizen.application.getCurrentApplication().exit();
+    });
+
+	//handle swipe right gesture
+	$('.contents').on("swiperight", function(){
+		$('#textbox').html("Right ->");
 	});
 
-	var index = 1;
-	var files = ["000", "045", "090", "135", "180", "225", "270", "315"];
-	var compass = document.querySelector('.contents');
-	compass.addEventListener("click", function() {
-		img = document.querySelector('#compass');
-		img.src = "images/" + files[index++] + ".png";
-		if (index > 7)
-			index = 0;
+	//handle swipe left gesture
+	$('.contents').on("swipeleft", function(){
+		$('#textbox').html("<- Left");
 	});
-};
+
+	//handle swipe up gesture
+	$('.contents').on("swipeup", function(){
+		$('#textbox').html("Up");
+	});
+
+	//handle swipe down gesture
+	$('.contents').on("swipedown", function(){
+		$('#textbox').html("Down");
+	});
+
+        //handle double tap
+	$('.contents').doubleTap(function (){
+		$('#textbox').html("Double Tap");
+	});
+});

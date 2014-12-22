@@ -6,7 +6,7 @@
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <feature name="http://tizen.org/feature/location.gps"/>
     <icon src="icon.png"/>
-    <name>cgeogearapp</name>
+    <name>c:geo</name>
     <tizen:privilege name="http://tizen.org/privilege/location"/>
     <tizen:setting background-support="disable" encryption="disable" hwkey-event="enable"/>
 </widget>

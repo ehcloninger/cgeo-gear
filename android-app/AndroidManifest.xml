@@ -40,12 +40,20 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".CacheActivity" 
+            >
+        </activity>
+
         <activity android:name="com.purplefoto.cgeogear.GearNotificationCallbackActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".CgeoGearPreferences"
+            android:label="@string/app_name" />
+ 
         <service
             android:name="com.purplefoto.cgeogear.GearService"
             android:exported="true" >

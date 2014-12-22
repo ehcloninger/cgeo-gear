@@ -52,7 +52,7 @@ public class GearService extends Service {
 				{
 			        Intent mainActivityIntent = new Intent();
 			        
-			        mainActivityIntent.setClassName("com.purplefoto.cgeogear", "com.purplefoto.cgeogear.CgeoGearMainActivity")
+			        mainActivityIntent.setClassName("com.purplefoto.cgeogear", "com.purplefoto.cgeogear.CacheActivity")
 			        					.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 			        					.putExtra(Intents.EXTRA_NAME, intent.getStringExtra(Intents.EXTRA_NAME))
 							        	.putExtra(Intents.EXTRA_GEOCODE, intent.getStringExtra(Intents.EXTRA_GEOCODE))

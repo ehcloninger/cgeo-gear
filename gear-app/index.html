@@ -1,21 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <meta name="description" content="c:geo Gear app"/>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="description" content="c:geo Gear" />
 
-    <title>c:geo Gear</title>
+<title>c:geo</title>
 
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
-    <script src="js/main.js"></script>
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
+<script type="text/javascript" src="js/jquerymobile-swipeupdown.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
 </head>
 
 <body>
-  <div class=contents>
-  	<div style='margin:auto;'>
-  		<img id="compass" src="images/000.png"/>
-  	</div>
-  </div>
+	<div class="row" id="page-main">
+		<div class="contents">
+			<div class="panel-heading">
+				<p id="gccode"></p>
+			</div>
+			<div class="panel-body">
+				<p id="gcname"></p>
+			</div>
+			<div class="panel-body">
+				<p id="lat"></p>
+				<p id="lon"></p>
+			</div>
+			<div class="panel-body">
+				<p id="distance"></p>
+			</div>
+		</div>
+	</div>
+	<div class="row" id="page-nav">
+		<div class="contents">
+		</div>
+	</div>
+	<div class="row" id="page-hint">
+		<div class="contents">
+		</div>
+	</div>
+	<div class="row" id="page-prefs">
+		<div class="contents">
+		</div>
+	</div>
 </body>
 </html>
