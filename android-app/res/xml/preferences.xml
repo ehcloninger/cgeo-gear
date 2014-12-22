@@ -12,7 +12,8 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS, 
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
 implied. See the License for the specific language governing 
-permissions and limitations under the License-->
+permissions and limitations under the License
+-->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
@@ -23,6 +24,12 @@ permissions and limitations under the License-->
             android:key="autosend"
             android:selectable="true"
             android:title="@string/autosend_desc" />
+
+        <com.purplefoto.cgeogear.OpenSourceDialogPreference
+            android:dialogMessage="@string/os_notice"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@string/ok"
+            android:title="@string/os_notice" />
     </PreferenceCategory>
 
 </PreferenceScreen>
