@@ -1,49 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="description" content="c:geo Gear" />
-
-<title>c:geo</title>
-
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
-<script type="text/javascript" src="js/jquery.mobile-1.4.5.js"></script>
-<script type="text/javascript" src="js/jquerymobile-swipeupdown.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+	<link rel="stylesheet"  href="./lib/tau/wearable/theme/default/tau.css">
 </head>
-
 <body>
-	<div class="row" id="page-main">
-		<div class="contents">
-			<div class="panel-heading">
-				<p id="gccode"></p>
-			</div>
-			<div class="panel-body">
-				<p id="gcname"></p>
-			</div>
-			<div class="panel-body">
-				<p id="lat"></p>
-				<p id="lon"></p>
-			</div>
-			<div class="panel-body">
-				<p id="distance"></p>
+	<div id="hsectionchangerPage" class="ui-page">
+	<link rel="stylesheet"  href="./css/sectionchanger.css">
+		<header class="ui-header">
+			<h2 class="ui-title">c:geo Gear</h2>
+		</header>
+		<div id="hsectionchanger" class="ui-content">
+			<div>
+				<section class="ui-section-active" style="text-align:center" id="page-main">
+					<h3> Geocache </h3>
+					<p id="gccode"></p>
+					<p id="gcname"></p>
+					<p id="lat"></p>
+					<p id="lon"></p>
+					<p id="distance"></p>
+				</section>
+				<section style="text-align:center" id="page-nav">
+					<h3> Navigate </h3>
+					<img src="./images/000.png">
+				</section>
+				<section style="text-align:center" id="page-hint">
+					<h3> Hint </h3>
+					<p id="hint">&nbsp;</p>
+					<button id="decode">Decode</button>
+				</section>
 			</div>
 		</div>
+		<script src="./js/hsection.js"></script>
 	</div>
-	<div class="row" id="page-nav">
-		<div class="contents">
-		</div>
-	</div>
-	<div class="row" id="page-hint">
-		<div class="contents">
-		</div>
-	</div>
-	<div class="row" id="page-prefs">
-		<div class="contents">
-		</div>
-	</div>
+<script type="text/javascript" src="./lib/tau/wearable/js/tau.js"></script>
 </body>
 </html>

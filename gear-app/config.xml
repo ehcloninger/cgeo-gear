@@ -9,4 +9,6 @@
     <name>c:geo</name>
     <tizen:privilege name="http://tizen.org/privilege/location"/>
     <tizen:setting background-support="disable" encryption="disable" hwkey-event="enable"/>
+    <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
+    <tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
 </widget>
