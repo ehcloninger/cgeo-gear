@@ -252,7 +252,8 @@ public class CacheActivity extends Activity implements EventListener {
 					java.lang.Math.abs(cacheData.getLon()
 							- (int) cacheData.getLon()) * 60));
 
-			gchint.setText(hint);
+//			gchint.setText(cacheData.makeString(this.getBaseContext()));
+			gchint.setText(cacheData.getHint());
 		}
 	}
 

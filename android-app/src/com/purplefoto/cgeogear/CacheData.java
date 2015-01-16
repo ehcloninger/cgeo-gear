@@ -97,7 +97,7 @@ public class CacheData {
 		this.hint = hint;
 	}
 
-	public String toString(Context context) {
+	public String makeString(Context context) {
 		String ret = "http://localhost?"
 				+ context.getString(R.string.notification_url_gccode) + "="
 				+ Uri.encode(this.code) + "&"
@@ -126,6 +126,10 @@ public class CacheData {
 				+ "<br/>"
 				+ String.format("%2d %2.3f", (int) this.lon,
 						java.lang.Math.abs(this.lon - (int) this.lon) * 60);
+		
+		// Test
+		// body += "<br/>[" + this.makeString(context) + "]";
+		
 		smallHeaderTemplate.setSubHeader(getCode());
 		smallHeaderTemplate.setBody(body);
 		smallHeaderTemplate.setBackgroundColor(Color.rgb(69, 114, 32));
@@ -141,7 +145,7 @@ public class CacheData {
 		primaryAction.setIcon(naviIcon);
 
 		primaryAction.setPackage(context.getString(R.string.gear_package_name));
-		primaryAction.setData(Uri.parse(this.toString(context)));
+		primaryAction.setData(Uri.parse(this.makeString(context)));
 
 		Intent resultIntent = new Intent(context,
 				GearNotificationCallbackActivity.class);
