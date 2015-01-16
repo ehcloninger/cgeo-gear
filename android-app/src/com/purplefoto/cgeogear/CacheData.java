@@ -104,9 +104,9 @@ public class CacheData {
 				+ context.getString(R.string.notification_url_gcname) + "="
 				+ Uri.encode(this.name) + "&"
 				+ context.getString(R.string.notification_url_lat) + "="
-				+ String.format("%.5f", this.lat) + "&"
+				+ Uri.encode(String.format("%.5f", this.lat)) + "&"
 				+ context.getString(R.string.notification_url_lon) + "="
-				+ String.format("%.5f", this.lon) + "&"
+				+ Uri.encode(String.format("%.5f", this.lon)) + "&"
 				+ context.getString(R.string.notification_url_gchint) + "="
 				+ Uri.encode(this.hint);
 

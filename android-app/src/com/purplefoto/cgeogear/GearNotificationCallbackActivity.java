@@ -34,5 +34,8 @@ public class GearNotificationCallbackActivity extends Activity {
         if (data != null) {
             Toast.makeText(this, data, Toast.LENGTH_SHORT).show();
         }
+        
+        // We don't actually need to do anything with the user on notification, so quit
+        this.finish();
     }
 }
