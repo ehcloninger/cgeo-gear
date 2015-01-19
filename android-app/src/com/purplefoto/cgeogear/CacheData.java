@@ -18,14 +18,13 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 
 import com.samsung.android.sdk.richnotification.SrnAction;
-import com.samsung.android.sdk.richnotification.SrnAction.CallbackIntent;
 import com.samsung.android.sdk.richnotification.SrnImageAsset;
 import com.samsung.android.sdk.richnotification.SrnRichNotification;
 import com.samsung.android.sdk.richnotification.SrnRichNotification.AlertType;
@@ -97,8 +96,8 @@ public class CacheData {
 		this.hint = hint;
 	}
 
-	public String makeString(Context context) {
-		String ret = "http://localhost?"
+	private String makeString(Context context) {
+		String ret = ""
 				+ context.getString(R.string.notification_url_gccode) + "="
 				+ Uri.encode(this.code) + "&"
 				+ context.getString(R.string.notification_url_gcname) + "="
@@ -112,6 +111,22 @@ public class CacheData {
 
 		return ret;
 	}
+	
+	private Bundle makeBundle(Context context) {
+		Bundle b = new Bundle();
+		
+		if (b != null)
+		{
+			b.putString(context.getString(R.string.notification_url_gccode), this.code);
+			b.putString(context.getString(R.string.notification_url_gcname), this.name);
+			b.putString(context.getString(R.string.notification_url_gchint), this.hint);
+			b.putDouble(context.getString(R.string.notification_url_lat), this.lat);
+			b.putDouble(context.getString(R.string.notification_url_lon), this.lon);
+		}
+		
+		return b;
+	}
+	
 
 	private SrnRichNotification createRichNotification(Context context) {
 
@@ -134,37 +149,29 @@ public class CacheData {
 		smallHeaderTemplate.setBody(body);
 		smallHeaderTemplate.setBackgroundColor(Color.rgb(69, 114, 32));
 
+		Uri remoteData = Uri.fromParts("geocache", this.makeString(context), null);
+
 		// Create the actions
 		ArrayList<SrnAction> actions = new ArrayList<SrnAction>();
-		SrnRemoteLaunchAction primaryAction = new SrnRemoteLaunchAction(
-				context.getString(R.string.navigate));
-		Bitmap primaryActionIcon = BitmapFactory.decodeResource(
-				context.getResources(), R.drawable.ic_pin_drop);
-		SrnImageAsset naviIcon = new SrnImageAsset(context, "web_icon",
-				primaryActionIcon);
+		SrnRemoteLaunchAction primaryAction = new SrnRemoteLaunchAction(context.getString(R.string.navigate), remoteData);
+		Bitmap primaryActionIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_pin_drop);
+		SrnImageAsset naviIcon = new SrnImageAsset(context, "web_icon", primaryActionIcon);
 		primaryAction.setIcon(naviIcon);
-
 		primaryAction.setPackage(context.getString(R.string.gear_package_name));
-		primaryAction.setData(Uri.parse(this.makeString(context)));
-
-		Intent resultIntent = new Intent(context,
-				GearNotificationCallbackActivity.class);
-		primaryAction.setCallbackIntent(CallbackIntent
-				.getActivityCallback(resultIntent));
+		
+		Bundle extras = this.makeBundle(context);
+		if (extras != null)
+			primaryAction.setExtras(extras);
 
 		actions.add(primaryAction);
 
 		// Create the icon for the notification
-		Bitmap appIconBitmap = BitmapFactory.decodeResource(
-				context.getResources(), R.drawable.ic_my_location);
-		SrnImageAsset appIcon = new SrnImageAsset(context, "app_icon",
-				appIconBitmap);
+		Bitmap appIconBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_my_location);
+		SrnImageAsset appIcon = new SrnImageAsset(context, "app_icon", appIconBitmap);
 
 		// Create notification object and assign values
 		SrnRichNotification notification = new SrnRichNotification(context);
 
-		notification.setReadout(
-				context.getString(R.string.search_for_geocache), getCode());
 		notification.setPrimaryTemplate(smallHeaderTemplate);
 		notification.setTitle(context.getString(R.string.app_name));
 		notification.setAlertType(AlertType.VIBRATION);
